@@ -50,7 +50,7 @@ if env.PROD_ENV:
     AUTHENTICATOR_BACKEND = 'aap_auth.backend.AAPBackend'
 elif env.TEST_ENV:
     DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.AAPBackend'
+    AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
 else:
     DEBUG = True
     AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
