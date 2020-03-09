@@ -50,10 +50,10 @@ if env.PROD_ENV:
     AUTHENTICATOR_BACKEND = 'aap_auth.backend.AAPBackend'
 elif env.TEST_ENV:
     DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
+    AUTHENTICATOR_BACKEND = 'aap_auth.backend.DevTestAAPBackend'
 else:
     DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
+    AUTHENTICATOR_BACKEND = 'aap_auth.backend.DevTestAAPBackend'
 
 FALLOVER = env.FALLOVER == True
 
