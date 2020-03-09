@@ -53,7 +53,7 @@ elif env.TEST_ENV:
     AUTHENTICATOR_BACKEND = 'aap_auth.backend.DevTestAAPBackend'
 else:
     DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.DevTestAAPBackend'
+    AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
 
 FALLOVER = env.FALLOVER == True
 
