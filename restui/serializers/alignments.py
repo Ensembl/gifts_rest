@@ -36,6 +36,9 @@ class AlignmentRunSerializer(serializers.ModelSerializer):
 
 class AlignmentSerializer(serializers.ModelSerializer):
 
+    def create(self, validated_data):
+        return Alignment.objects.create(**validated_data)
+
     class Meta:
         model = Alignment
         fields = '__all__'

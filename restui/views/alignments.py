@@ -20,6 +20,10 @@ from django.http import Http404
 from rest_framework import generics
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.schemas import ManualSchema
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+
 
 import coreapi
 import coreschema
@@ -47,12 +51,36 @@ class AlignmentRunFetch(generics.RetrieveAPIView):
     serializer_class = AlignmentRunSerializer
 
 
-class AlignmentCreate(generics.CreateAPIView):
+class AlignmentCreate(APIView):
     """
     Insert an Alignment
     """
 
-    serializer_class = AlignmentSerializer
+    def post(self, request):
+
+        try:
+            data = Alignment.objects.get(alignment_run=request.data['alignment_run'],
+                                               mapping=request.data['mapping'])
+            already_exists = AlignmentSerializer(data)
+            return Response(already_exists.data, status=status.HTTP_201_CREATED)
+        except Alignment.DoesNotExist:
+            serializer = AlignmentSerializer(
+                        data={
+                            'alignment_run': request.data.get("alignment_run", None),
+                            'uniprot_id': request.data.get("uniprot_id", None),
+                            'transcript': request.data.get("transcript", None),
+                            'mapping':request.data.get("mapping", None),
+                            'score1': request.data.get("score1", None),
+                            'report': request.data.get("report", None),
+                            'is_current': request.data.get("is_current", None),
+                            'score2': request.data.get("score2", None)
+                        }
+                    )
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class AlignmentFetch(generics.RetrieveAPIView):
