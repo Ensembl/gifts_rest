@@ -18,7 +18,7 @@
 from collections import OrderedDict
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.pagination import LimitOffsetPagination
+from rest_framework.pagination import LimitOffsetPagination, PageNumberPagination
 
 from restui.serializers.mappings import MappingsSerializer
 from restui.serializers.mappings import MappingViewsSerializer
@@ -348,3 +348,7 @@ class UnmappedEnsemblEntryPagination(LimitOffsetPagination):
             ('previous', self.get_previous_link()),
             ('results', data)
         ]))
+
+
+class LongResultsPagination(PageNumberPagination):
+    page_size = 20

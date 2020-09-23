@@ -32,6 +32,8 @@ from restui.models.mappings import Alignment
 from restui.models.mappings import AlignmentRun
 from restui.serializers.alignments import AlignmentSerializer
 from restui.serializers.alignments import AlignmentRunSerializer
+from restui.pagination import LongResultsPagination
+
 
 
 class AlignmentRunCreate(generics.CreateAPIView):
@@ -98,7 +100,8 @@ class AlignmentByAlignmentRunFetch(generics.ListAPIView):
     """
 
     serializer_class = AlignmentSerializer
-    pagination_class = PageNumberPagination
+    pagination_class = LongResultsPagination
+
     schema = ManualSchema(
         description="Retrieve all alignments for a given alignment run",
         fields=[
