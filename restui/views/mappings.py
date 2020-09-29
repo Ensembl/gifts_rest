@@ -63,7 +63,7 @@ from restui.serializers.annotations import MappingStatusSerializer
 from restui.serializers.annotations import MappingCommentSerializer
 from restui.serializers.annotations import MappingLabelSerializer
 from restui.serializers.annotations import LabelsSerializer
-from restui.pagination import MappingViewFacetPagination
+from restui.pagination import MappingViewFacetPagination, LongResultsPagination
 from restui.lib.alignments import fetch_pairwise
 from restui.lib.mail import GiftsEmail
 from django.conf import settings
@@ -273,7 +273,7 @@ class MappingsByHistory(generics.ListAPIView):
     """
 
     serializer_class = MappingByHistorySerializer
-    pagination_class = PageNumberPagination
+    pagination_class = LongResultsPagination
     schema = ManualSchema(
         description="Fetch mappings corresponding to a given release mapping history",
         fields=[
