@@ -121,7 +121,13 @@ class AlignmentByAlignmentRunFetch(generics.ListAPIView):
         except (AlignmentRun.DoesNotExist, IndexError):
             raise Http404
 
-        return Alignment.objects.filter(alignment_run=alignment_run).order_by('alignment_id')
+        mapping_ids = self.request.query_params.get('mapping_id', None)
+
+        if mapping_ids is not None:
+            mapping_ids = mapping_ids.split(',')
+            return Alignment.objects.filter(alignment_run=alignment_run, mapping_id__in=mapping_ids)
+        else:
+            return Alignment.objects.filter(alignment_run=alignment_run).order_by('alignment_id')
 
 
 #
