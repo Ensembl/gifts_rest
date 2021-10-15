@@ -23,5 +23,5 @@ mock
 coveralls
 testing.common.database
 testing.postgresql
-pylint
-pylint-django
+pylint==2.11.1
+pylint-django==2.4.4
