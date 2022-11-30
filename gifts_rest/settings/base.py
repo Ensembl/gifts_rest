@@ -52,6 +52,7 @@ ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
 SECRET_KEY = secrets.SECRET_KEY
 EMAIL_HOST = secrets.MAIL_SERVER
 EMAIL_RECIPIENT_LIST = secrets.EMAIL_LIST
+IS_FALLBACK = secrets.IS_FALLBACK
 
 # Application definition
 
