@@ -125,7 +125,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'psqlextra.backend',
         'OPTIONS': {
-            'options': '-c search_path=ensembl_gifts,public'
+            'options': '-c search_path={},public'.format(secrets.GIFTS_DATABASE_SCHEMA)
         },
         'NAME': secrets.GIFTS_DATABASE,
         'USER': secrets.GIFTS_DATABASE_USER,
@@ -137,8 +137,7 @@ DATABASES = {
     'gifts': {
         'ENGINE': 'psqlextra.backend',
         'OPTIONS': {
-            # dev server must operate on its own schema (assume is named 'dev), see [EA-40].
-            'options': '-c search_path=ensembl_gifts,public'
+            'options': '-c search_path={},public'.format(secrets.GIFTS_DATABASE_SCHEMA)
         },
         'NAME': secrets.GIFTS_DATABASE,
         'USER': secrets.GIFTS_DATABASE_USER,
