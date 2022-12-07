@@ -53,7 +53,7 @@ class AAPBackend(authentication.BaseAuthentication):
            return None, None
 
        try:
-           decoded_token = decode(jwt, AAPAcess().cert)
+           decoded_token = decode(jwt, AAPAcess().cert, algorithms=[u'RS256'])
        except ExpiredSignatureError as err:
            return None, None
        except DecodeError as err:
