@@ -39,7 +39,7 @@ def method_router(request, *args, **kwargs):
     ----------
     request : request object
     """
-    if settings.FALLOVER and (request.method == 'POST' or request.method == 'PUT'):
+    if settings.IS_FALLBACK and (request.method == 'POST' or request.method == 'PUT'):
         raise Http404
         # This doesn't work for some reason, maybe Alessandro can figure it out.
         # raise FalloverROException

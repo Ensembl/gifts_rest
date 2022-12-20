@@ -18,7 +18,6 @@
 from rest_framework import authentication
 from aap_auth.models import AAPUser as User
 
-from aap_client.tokens import verify_token
 from jwt import decode, DecodeError, InvalidTokenError as JWTInvalidTokenError, ExpiredSignatureError
 
 from aap_auth.auth import AAPAcess
@@ -54,7 +53,7 @@ class AAPBackend(authentication.BaseAuthentication):
            return None, None
 
        try:
-           decoded_token = verify_token(jwt, AAPAcess().cert)
+           decoded_token = decode(jwt, AAPAcess().cert, algorithms=[u'RS256'])
        except ExpiredSignatureError as err:
            return None, None
        except DecodeError as err:

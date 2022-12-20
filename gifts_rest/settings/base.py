@@ -28,7 +28,8 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-from . import env
+from . import secrets
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -44,21 +45,14 @@ API_VERSION = '1.0.0'
 TIME_ZONE = 'Europe/London'
 USE_TZ = True
 
-# SECURITY WARNING: don't run with debug turned on in production!
-if env.PROD_ENV:
-    DEBUG = False
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.AAPBackend'
-elif env.TEST_ENV:
-    DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.DevTestAAPBackend'
-else:
-    DEBUG = True
-    AUTHENTICATOR_BACKEND = 'aap_auth.backend.YesBackend'
 
-FALLOVER = env.FALLOVER == True
-
-ALLOWED_HOSTS = ['*']
-
+DEBUG = secrets.DEBUG
+AUTHENTICATOR_BACKEND = secrets.AUTHENTICATOR_BACKEND
+ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
+SECRET_KEY = secrets.SECRET_KEY
+EMAIL_HOST = secrets.MAIL_SERVER
+EMAIL_RECIPIENT_LIST = secrets.EMAIL_LIST
+IS_FALLBACK = secrets.IS_FALLBACK
 
 # Application definition
 
@@ -127,76 +121,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'gifts_rest.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-
-if 'TRAVIS' in os.environ:
-    SECRET_KEY = "SecretKeyForUseOnTravis"
-    DATABASES = {
-        'default': {
-            # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'ENGINE': 'psqlextra.backend',
-            'NAME': 'ensembl_gifts',
-            'USER': 'postgres',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            # 'PORT': '5433',
+DATABASES = {
+    'default': {
+        'ENGINE': 'psqlextra.backend',
+        'OPTIONS': {
+            'options': '-c search_path={},public'.format(secrets.GIFTS_DATABASE_SCHEMA)
         },
-        'gifts': {
-            'ENGINE': 'psqlextra.backend',
-            'NAME': 'ensembl_gifts',
-            'USER': 'postgres',
-            'PASSWORD': '',
-            'HOST': 'localhost',
-            # 'PORT': '5433',
-        }
-    }
-    EMAIL_RECIPIENT_LIST = {
-        1: {
-            'name': 'Work email',
-            'email': 'sboddu@ebi.ac.uk',
-        }
-    }
-else:
-    from . import secrets
-    SECRET_KEY = secrets.SECRET_KEY
-
-    # Email settings:
-    EMAIL_HOST = secrets.MAIL_SERVER
-
-    EMAIL_RECIPIENT_LIST = secrets.EMAIL_LIST
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'psqlextra.backend', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'OPTIONS': {
-                'options': '-c search_path=ensembl_gifts,public'
-            },
-            'NAME': secrets.GIFTS_DATABASE,
-            'USER': secrets.GIFTS_DATABASE_USER,
-            'PASSWORD': secrets.GIFTS_DATABASE_PASSWORD,
-            'HOST': secrets.GIFTS_DATABASE_HOST,
-            'PORT': secrets.GIFTS_DATABASE_PORT,
-#             'NAME': secrets.REST_DATABASE,
-#             'USER': secrets.REST_DATABASE_USER,
-#             'PASSWORD': secrets.REST_DATABASE_PASSWORD,
-#             'HOST': secrets.REST_DATABASE_HOST,                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-#             'PORT': secrets.REST_DATABASE_PORT,                      # Set to empty string for default.
+        'NAME': secrets.GIFTS_DATABASE,
+        'USER': secrets.GIFTS_DATABASE_USER,
+        'PASSWORD': secrets.GIFTS_DATABASE_PASSWORD,
+        'HOST': secrets.GIFTS_DATABASE_HOST,
+        'PORT': secrets.GIFTS_DATABASE_PORT
+    },
+    # all operations on restui models point to 'gifts', see gifts_rest.router
+    'gifts': {
+        'ENGINE': 'psqlextra.backend',
+        'OPTIONS': {
+            'options': '-c search_path={},public'.format(secrets.GIFTS_DATABASE_SCHEMA)
         },
-        # all operations on restui models point to 'gifts', see gifts_rest.router
-        'gifts': {
-            'ENGINE': 'psqlextra.backend',
-            'OPTIONS': {
-                # dev server must operate on its own schema (assume is named 'dev), see [EA-40].
-                'options': '-c search_path=ensembl_gifts,public' if not env.DEV_ENV else '-c search_path=dev,public'
-            },
-            'NAME': secrets.GIFTS_DATABASE,
-            'USER': secrets.GIFTS_DATABASE_USER,
-            'PASSWORD': secrets.GIFTS_DATABASE_PASSWORD,
-            'HOST': secrets.GIFTS_DATABASE_HOST,
-            'PORT': secrets.GIFTS_DATABASE_PORT,
-        }
+        'NAME': secrets.GIFTS_DATABASE,
+        'USER': secrets.GIFTS_DATABASE_USER,
+        'PASSWORD': secrets.GIFTS_DATABASE_PASSWORD,
+        'HOST': secrets.GIFTS_DATABASE_HOST,
+        'PORT': secrets.GIFTS_DATABASE_PORT,
     }
+}
 
 DATABASE_ROUTERS = ['gifts_rest.router.GiftsRouter']
 
@@ -239,20 +188,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # TaRK base URL
-TARK_SERVER = "http://betatark.ensembl.org"
+TARK_SERVER = "http://tark.ensembl.org"
 
 # Ensembl REST server
 ENSEMBL_REST_SERVER = "http://rest.ensembl.org"
 
 # AAP service
-AAP_PEM_URL = 'https://api.aai.ebi.ac.uk/meta/public.pem'
-AAP_PROFILE_URL = 'https://api.aai.ebi.ac.uk/users/{}/profile'
-AAP_PEM_FILE = '/tmp/aap.pem'
-AAP_GIFTS_DOMAIN = 'self.gifts'
+AAP_PEM_URL = secrets.AAP_PEM_URL
+AAP_PROFILE_URL = secrets.AAP_PROFILE_URL
+AAP_PEM_FILE = secrets.AAP_PEM_FILE
+AAP_GIFTS_DOMAIN = secrets.AAP_GIFTS_DOMAIN
 
 # CELERY STUFF
-BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+BROKER_URL = secrets.BROKER_URL
+CELERY_RESULT_BACKEND = secrets.CELERY_RESULT_BACKEND
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
