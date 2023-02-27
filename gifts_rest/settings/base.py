@@ -185,7 +185,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/gifts/api-static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static/apache")
+
 
 # TaRK base URL
 TARK_SERVER = "http://tark.ensembl.org"
@@ -205,3 +208,9 @@ CELERY_RESULT_BACKEND = secrets.CELERY_RESULT_BACKEND
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
+
+SWAGGER_SETTINGS = {
+    "USE_SESSION_AUTH": False,
+    "SECURITY_DEFINITIONS": {},
+    "DOC_EXPANSION": None
+}
