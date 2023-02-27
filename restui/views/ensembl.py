@@ -120,6 +120,8 @@ class EnspUCigarCreate(generics.CreateAPIView):
     Insert an alignment
     """
 
+    permission_classes = (IsAuthenticated,)
+
     serializer_class = EnspUCigarSerializer
 
 
@@ -185,7 +187,7 @@ class EnspUCigarFetchUpdateByAlignment(generics.RetrieveUpdateAPIView):
     """
     Fetch/Update cigar/mdz by alignment id
     """
-
+    permission_classes = (IsAuthenticated,)
     serializer_class = EnspUCigarSerializer
     schema = ManualSchema(description="Fetch/Update cigar/mdz by alignment id",
                           fields=[

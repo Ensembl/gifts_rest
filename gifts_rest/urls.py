@@ -39,7 +39,7 @@ from rest_framework_swagger.views import get_swagger_view
 from . import settings
 
 
-schema_view = get_swagger_view(title='GIFTs API Documentation')
+schema_view = get_swagger_view(title='GIFTs API Documentation', url='/' if settings.env.DEV_ENV else '/gifts/api/')
 
 
 if settings.env.DEV_ENV:

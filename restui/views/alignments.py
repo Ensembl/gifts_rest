@@ -23,6 +23,7 @@ from rest_framework.schemas import ManualSchema
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 
 
 import coreapi
@@ -40,6 +41,7 @@ class AlignmentRunCreate(generics.CreateAPIView):
     """
     Store an AlignmentRun
     """
+    permission_classes = (IsAuthenticated,)
 
     serializer_class = AlignmentRunSerializer
 
@@ -57,6 +59,8 @@ class AlignmentCreate(APIView):
     """
     Insert an Alignment
     """
+
+    permission_classes = (IsAuthenticated,)
 
     def post(self, request):
 
