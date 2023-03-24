@@ -22,7 +22,7 @@ from celery import Celery
 from django.conf import settings
 
 # set the default Django settings module for the 'celery' program.
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gifts_rest.settings.base')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'gifts_rest.settings')
 app = Celery('gifts_rest')
 
 # Using a string here means the worker will not have to
