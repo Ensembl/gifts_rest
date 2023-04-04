@@ -19,7 +19,7 @@ from django.http import Http404
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.schemas import ManualSchema
@@ -187,7 +187,7 @@ class EnspUCigarFetchUpdateByAlignment(generics.RetrieveUpdateAPIView):
     """
     Fetch/Update cigar/mdz by alignment id
     """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     serializer_class = EnspUCigarSerializer
     schema = ManualSchema(description="Fetch/Update cigar/mdz by alignment id",
                           fields=[
