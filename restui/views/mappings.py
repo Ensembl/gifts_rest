@@ -425,7 +425,7 @@ class MappingLabelView(APIView):
             serializer = MappingLabelSerializer(
                 data={
                     'time_stamp': timezone.now(),
-                    'user_stamp': request.user,
+                    'user_stamp': request.user.pk,
                     'label': label_id,
                     'mapping': pk
                 }
@@ -638,7 +638,7 @@ class MappingCommentsView(APIView):
             serializer = MappingCommentSerializer(
                 data={
                     'time_stamp': timezone.now(),
-                    'user_stamp': request.user,
+                    'user_stamp': request.user.pk,
                     'comment': request.data['text'],
                     'mapping': mapping.mapping_id,
                     'deleted': False
@@ -725,7 +725,7 @@ class MappingStatusView(APIView):
         serializer = MappingStatusSerializer(
             data={
                 'time_stamp': timezone.now(),
-                'user_stamp': request.user,
+                'user_stamp': request.user.pk,
                 'status': s.id,
                 'mapping': mapping.mapping_id
             }

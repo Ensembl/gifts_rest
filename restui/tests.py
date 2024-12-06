@@ -43,7 +43,7 @@ FIXTURES = [
     'release_mapping_history', 'alignment_run', 'alignment',
     'ensp_u_cigar', 'transcript_history', 'cv_entry_type',
     'mapping_view', 'mapping_history', 'release_stats', 'cv_ue_label',
-    'aapuser', 'ue_mapping_label', 'ue_unmapped_entry_label',
+    'user', 'ue_mapping_label', 'ue_unmapped_entry_label',
     'uniprot_entry_history'
 ]
 

@@ -39,7 +39,10 @@ from rest_framework_swagger.views import get_swagger_view
 from . import settings
 
 
-schema_view = get_swagger_view(title='GIFTs API Documentation', url='/' if settings.env.DEV_ENV else '/gifts/api/')
+schema_view = get_swagger_view(
+    title='GIFTs API Documentation',
+    url='/' if settings.env.DEV_ENV else '/gifts/api/'
+)
 
 
 if settings.env.DEV_ENV:
@@ -48,6 +51,7 @@ if settings.env.DEV_ENV:
         url(r'^docs/', schema_view),
         path('admin/', admin.site.urls),
         url(r'^', include('restui.urls')),
+        url(r'^', include('users.urls')),
     ]
 
 else:
@@ -55,4 +59,5 @@ else:
     urlpatterns = [
         url(r'^docs/', schema_view),
         url(r'^', include('restui.urls')),
+        url(r'^', include('users.urls')),
     ]

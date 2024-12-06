@@ -38,3 +38,5 @@ coverage.xml
 
 # Static files directory
 apache
+
+/venv
