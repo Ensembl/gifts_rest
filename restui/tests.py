@@ -401,18 +401,6 @@ class EnsemblMapping(APITestCase):
 
     def test_mapping_comment_requests(self):
         client = APIClient()
-        # client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        # client.credentials(HTTP_AUTHORIZATION='Token testtesttest123')
-
-        # client.login(username='testtesttest123', password='check')
-
-        # client.session.auth = HTTPBasicAuth('testtesttest123', 'check')
-
-        # print("\nUSERS:", AAPUser.objects.all().values())
-        # user = AAPUser.objects.filter(elixir_id='testtesttest123')
-        # print("\nUSER:", user)
-        # client.force_authenticate(user=user)
-        # print("\nFORCE AUTH")
 
         # View comment - mappings.MappingCommentsView
         response = client.get('/mapping/1/comments/')
@@ -755,18 +743,6 @@ class EnsemblUnmapped(APITestCase):
 
     def test_unmapped_comment_requests(self):
         client = APIClient()
-        # client.credentials(HTTP_AUTHORIZATION='Token ' + token.key)
-        # client.credentials(HTTP_AUTHORIZATION='Token testtesttest123')
-
-        # client.login(username='testtesttest123', password='check')
-
-        # client.session.auth = HTTPBasicAuth('testtesttest123', 'check')
-
-        # print("\nUSERS:", AAPUser.objects.all().values())
-        # user = AAPUser.objects.filter(elixir_id='testtesttest123')
-        # print("\nUSER:", user)
-        # client.force_authenticate(user=user)
-        # print("\nFORCE AUTH")
 
         # View comment - unmapped.AddGetComments
         response = client.get('/unmapped/2/comments/')

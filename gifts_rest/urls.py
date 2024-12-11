@@ -44,20 +44,15 @@ schema_view = get_swagger_view(
     url='/' if settings.env.DEV_ENV else '/gifts/api/'
 )
 
+# Base URL patterns common to all environments
+urlpatterns = [
+    url(r'^docs/', schema_view),
+    path('', include('restui.urls')),  # Root URL is reserved for restui
+    path('users/', include('users.urls')),
+]
 
+# Dev environment-specific patterns
 if settings.env.DEV_ENV:
-
-    urlpatterns = [
-        url(r'^docs/', schema_view),
-        path('admin/', admin.site.urls),
-        url(r'^', include('restui.urls')),
-        url(r'^', include('users.urls')),
-    ]
-
-else:
-
-    urlpatterns = [
-        url(r'^docs/', schema_view),
-        url(r'^', include('restui.urls')),
-        url(r'^', include('users.urls')),
+    urlpatterns += [
+        path('admin/', admin.site.urls),  # Admin included only in dev
     ]

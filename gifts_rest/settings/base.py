@@ -48,7 +48,6 @@ USE_TZ = True
 
 
 DEBUG = secrets.DEBUG
-AUTHENTICATOR_BACKEND = secrets.AUTHENTICATOR_BACKEND
 ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
 SECRET_KEY = secrets.SECRET_KEY
 EMAIL_HOST = secrets.MAIL_SERVER
@@ -202,12 +201,6 @@ TARK_SERVER = "http://tark.ensembl.org"
 
 # Ensembl REST server
 ENSEMBL_REST_SERVER = "http://rest.ensembl.org"
-
-# AAP service
-AAP_PEM_URL = secrets.AAP_PEM_URL
-AAP_PROFILE_URL = secrets.AAP_PROFILE_URL
-AAP_PEM_FILE = secrets.AAP_PEM_FILE
-AAP_GIFTS_DOMAIN = secrets.AAP_GIFTS_DOMAIN
 
 # CELERY STUFF
 BROKER_URL = secrets.BROKER_URL

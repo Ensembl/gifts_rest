@@ -50,7 +50,7 @@ DATABASE_ROUTERS = []
 MIGRATION_MODULES = {
     'psqlextra': None,
     'restui': None,
-    'aap_auth': None
+    'users': None
 }
 
 # Set Django's test runner to the custom class defined above
