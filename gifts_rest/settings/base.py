@@ -14,6 +14,7 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 """
+from datetime import timedelta
 
 """
 Django settings for gifts_rest project.
@@ -35,7 +36,7 @@ from . import secrets
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Custom User model for the service
-AUTH_USER_MODEL = 'aap_auth.AAPUser'
+AUTH_USER_MODEL = 'users.CustomUser'
 
 API_VERSION = '1.0.0'
 
@@ -47,7 +48,6 @@ USE_TZ = True
 
 
 DEBUG = secrets.DEBUG
-AUTHENTICATOR_BACKEND = secrets.AUTHENTICATOR_BACKEND
 ALLOWED_HOSTS = secrets.ALLOWED_HOSTS
 SECRET_KEY = secrets.SECRET_KEY
 EMAIL_HOST = secrets.MAIL_SERVER
@@ -68,17 +68,23 @@ INSTALLED_APPS = [
     'django.contrib.postgres',
     'psqlextra',
     'restui',
-    'aap_auth.apps.AppAuthConfig'
+    'users.apps.UsersConfig'
 ]
 
 REST_FRAMEWORK = {
     # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE':10,
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        AUTHENTICATOR_BACKEND,
-    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
     'EXCEPTION_HANDLER': 'rest_framework.views.exception_handler'
 }
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,7 +131,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'psqlextra.backend',
         'OPTIONS': {
-            'options': '-c search_path={},public'.format(secrets.GIFTS_DATABASE_SCHEMA)
+            'options': '-c search_path={}'.format(secrets.GIFTS_DATABASE_SCHEMA)
         },
         'NAME': secrets.GIFTS_DATABASE,
         'USER': secrets.GIFTS_DATABASE_USER,
@@ -195,12 +201,6 @@ TARK_SERVER = "http://tark.ensembl.org"
 
 # Ensembl REST server
 ENSEMBL_REST_SERVER = "http://rest.ensembl.org"
-
-# AAP service
-AAP_PEM_URL = secrets.AAP_PEM_URL
-AAP_PROFILE_URL = secrets.AAP_PROFILE_URL
-AAP_PEM_FILE = secrets.AAP_PEM_FILE
-AAP_GIFTS_DOMAIN = secrets.AAP_GIFTS_DOMAIN
 
 # CELERY STUFF
 BROKER_URL = secrets.BROKER_URL

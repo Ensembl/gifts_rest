@@ -16,12 +16,18 @@
 """
 
 from django.core.management.base import BaseCommand
-from aap_auth.auth import AAPAcess
-
+from django.db import connection
 
 class Command(BaseCommand):
+    help = """
+        Prints the current search path
+        Usage:
+        $ python manage.py print_search_path
+    """
 
-    def handle(self, *args, **options):
-        print("Fetching AAP PEM certificate")
-
-        AAPAcess().fetchPEM()
+    def handle(self, *args, **kwargs):
+        with connection.cursor() as cursor:
+            cursor.execute("SHOW search_path;")
+            search_path = cursor.fetchone()
+            self.stdout.write(self.style.SUCCESS(f'Search path: {search_path}'))
+            self.stdout.write(self.style.SUCCESS(f'Connection: {connection.settings_dict}'))

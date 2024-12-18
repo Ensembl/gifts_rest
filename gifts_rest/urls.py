@@ -39,20 +39,20 @@ from rest_framework_swagger.views import get_swagger_view
 from . import settings
 
 
-schema_view = get_swagger_view(title='GIFTs API Documentation', url='/' if settings.env.DEV_ENV else '/gifts/api/')
+schema_view = get_swagger_view(
+    title='GIFTs API Documentation',
+    url='/' if settings.env.DEV_ENV else '/gifts/api/'
+)
 
+# Base URL patterns common to all environments
+urlpatterns = [
+    url(r'^docs/', schema_view),
+    path('', include('restui.urls')),  # Root URL is reserved for restui
+    path('users/', include('users.urls')),
+]
 
+# Dev environment-specific patterns
 if settings.env.DEV_ENV:
-
-    urlpatterns = [
-        url(r'^docs/', schema_view),
-        path('admin/', admin.site.urls),
-        url(r'^', include('restui.urls')),
-    ]
-
-else:
-
-    urlpatterns = [
-        url(r'^docs/', schema_view),
-        url(r'^', include('restui.urls')),
+    urlpatterns += [
+        path('admin/', admin.site.urls),  # Admin included only in dev
     ]

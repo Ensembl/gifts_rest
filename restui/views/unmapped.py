@@ -327,7 +327,7 @@ class AddDeleteLabel(APIView):
             serializer = UnmappedEntryLabelSerializer(
                 data={
                     'time_stamp': timezone.now(),
-                    'user_stamp': request.user,
+                    'user_stamp': request.user.pk,
                     'label': label_id,
                     'uniprot': uniprot_entry.uniprot_id
                 }
@@ -448,7 +448,7 @@ class AddGetComments(APIView):
             serializer = UnmappedEntryCommentSerializer(
                 data={
                     'time_stamp': timezone.now(),
-                    'user_stamp': request.user,
+                    'user_stamp': request.user.pk,
                     'comment': request.data['text'],
                     'uniprot': uniprot_entry.uniprot_id,
                     'deleted': False
@@ -614,7 +614,7 @@ class StatusChange(APIView):
         serializer = UnmappedEntryStatusSerializer(
             data={
                 'time_stamp': timezone.now(),
-                'user_stamp': request.user,
+                'user_stamp': request.user.pk,
                 'status': s.id,
                 'uniprot': uniprot_entry.uniprot_id
             }
